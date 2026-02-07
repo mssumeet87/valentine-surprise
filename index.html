@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sumeet ❤️ Madhumita</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Rabbit favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐇</text></svg>">
+
+<!-- Handwritten font -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Dancing Script', cursive;
+  text-align:center;
+  color:#5a0033;
+  overflow-x:hidden;
+  background:linear-gradient(180deg,#ff9a9e,#fad0c4);
+}
+.decor{
+  position:fixed;
+  opacity:0.25;
+  pointer-events:none;
+  font-size:40px;
+}
+.flower{top:10px;left:10px}
+.candle{bottom:10px;right:10px}
+.screen{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+input,button{
+  padding:12px 20px;
+  border:none;
+  border-radius:25px;
+  font-size:1.1em;
+}
+button{
+  background:#ff4b6e;
+  color:#fff;
+  margin-top:15px;
+}
+#countdown{font-size:2.2em}
+#content{display:none;padding:20px}
+.letter{
+  background:rgba(255,255,255,0.85);
+  padding:20px;
+  border-radius:20px;
+  font-size:1.3em;
+  margin:20px auto;
+  max-width:95%;
+}
+.heart{
+  position:fixed;
+  bottom:-10px;
+  animation:floatUp 6s linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:1}
+  100%{transform:translateY(-110vh);opacity:0}
+}
+.petal{
+  position:fixed;
+  top:-10px;
+  font-size:24px;
+  animation:fall 8s linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg)}
+}
+.glow{
+  animation:flicker 1.5s infinite alternate;
+}
+@keyframes flicker{
+  from{filter:drop-shadow(0 0 5px orange)}
+  to{filter:drop-shadow(0 0 15px gold)}
+}
+</style>
+</head>
+
+<body>
+<div class="decor flower">🌸🌹🌼</div>
+<div class="decor candle glow">🕯️🕯️</div>
+
+<div class="screen" id="passwordScreen">
+  <h1>🔒 A Secret for Madhumita 🐇</h1>
+  <input type="password" id="password" placeholder="Enter the secret">
+  <button onclick="unlock()">Unlock ❤️</button>
+  <p><em>I am all yours always my sweet 🐇</em></p>
+</div>
+
+<div class="screen" id="countdownScreen" style="display:none;">
+  <div id="countdown"></div>
+</div>
+
+<div id="content">
+  <h1 id="name"></h1>
+
+  <audio id="bgm" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="kissSound">
+    <source src="kiss.wav" type="audio/wav">
+  </audio>
+
+  <img src="rabbit.gif" style="width:200px;border-radius:20px;margin:20px auto;">
+
+  <div class="letter">
+    <span id="typedText"></span>
+  </div>
+</div>
+
+<script>
+const correctPassword="i am all yours always my sweet";
+const targetDate=new Date("February 14, 2026 00:00:00").getTime();
+
+const message=`My dearest Madhumita 🐇,
+From the moment you entered my life,
+everything bloomed 🌸
+and glowed like candles 🕯️.
+I may be Sumeet (chora),
+but my heart belongs only to you.
+I am all yours. Always.
+Tight hugs 🤗 and sweet kisses 💋❤️`;
+
+function unlock(){
+  if(password.value.toLowerCase()===correctPassword){
+    passwordScreen.style.display="none";
+    countdownScreen.style.display="flex";
+    startCountdown();
+  }else{
+    alert("Think with your heart ❤️");
+  }
+}
+
+function startCountdown(){
+  const t=setInterval(()=>{
+    const diff=targetDate-new Date().getTime();
+    if(diff<=0){
+      clearInterval(t);
+      countdownScreen.style.display="none";
+      content.style.display="block";
+      bgm.play().catch(()=>{});
+      kissSound.play().catch(()=>{});
+      showName();
+      typeText();
+      setInterval(createHeart,400);
+      setInterval(createPetal,700);
+      return;
+    }
+    const d=Math.floor(diff/(1000*60*60*24));
+    const h=Math.floor((diff/(1000*60*60))%24);
+    const m=Math.floor((diff/(1000*60))%60);
+    const s=Math.floor((diff/1000)%60);
+    countdown.innerHTML=`🎁 Surprise in<br>${d}d ${h}h ${m}m ${s}s`;
+  },1000);
+}
+
+const nameText="Sumeet (chora) ❤️ Madhumita 🐇";
+let ni=0;
+function showName(){
+  if(ni<nameText.length){
+    name.innerHTML+=nameText.charAt(ni++);
+    setTimeout(showName,80);
+  }
+}
+
+let i=0;
+function typeText(){
+  if(i<message.length){
+    typedText.innerHTML+=message.charAt(i++);
+    setTimeout(typeText,50);
+  }
+}
+
+function createHeart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+}
+
+function createPetal(){
+  const p=document.createElement("div");
+  p.className="petal";
+  p.innerHTML="🌸";
+  p.style.left=Math.random()*100+"vw";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),8000);
+}
+</script>
+</body>
+</html>
